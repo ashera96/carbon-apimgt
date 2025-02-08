@@ -22,7 +22,6 @@ public class APIEndpointDTO   {
   
     private String id = null;
     private String name = null;
-    private String endpointType = null;
     private String environment = null;
     private Object endpointConfig = null;
 
@@ -34,7 +33,7 @@ public class APIEndpointDTO   {
   }
 
   
-  @ApiModelProperty(example = "2df3-3fsf2-sdf0", value = "")
+  @ApiModelProperty(example = "57a380b7-d852-4f56-bb23-db172722e9d4", value = "")
   @JsonProperty("id")
   public String getId() {
     return id;
@@ -51,7 +50,7 @@ public class APIEndpointDTO   {
   }
 
   
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(example = "Endpoint1", required = true, value = "")
   @JsonProperty("name")
   @NotNull
   public String getName() {
@@ -59,23 +58,6 @@ public class APIEndpointDTO   {
   }
   public void setName(String name) {
     this.name = name;
-  }
-
-  /**
-   **/
-  public APIEndpointDTO endpointType(String endpointType) {
-    this.endpointType = endpointType;
-    return this;
-  }
-
-  
-  @ApiModelProperty(example = "REST", value = "")
-  @JsonProperty("endpointType")
-  public String getEndpointType() {
-    return endpointType;
-  }
-  public void setEndpointType(String endpointType) {
-    this.endpointType = endpointType;
   }
 
   /**
@@ -126,14 +108,13 @@ public class APIEndpointDTO   {
     APIEndpointDTO apIEndpoint = (APIEndpointDTO) o;
     return Objects.equals(id, apIEndpoint.id) &&
         Objects.equals(name, apIEndpoint.name) &&
-        Objects.equals(endpointType, apIEndpoint.endpointType) &&
         Objects.equals(environment, apIEndpoint.environment) &&
         Objects.equals(endpointConfig, apIEndpoint.endpointConfig);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, endpointType, environment, endpointConfig);
+    return Objects.hash(id, name, environment, endpointConfig);
   }
 
   @Override
@@ -143,7 +124,6 @@ public class APIEndpointDTO   {
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    endpointType: ").append(toIndentedString(endpointType)).append("\n");
     sb.append("    environment: ").append(toIndentedString(environment)).append("\n");
     sb.append("    endpointConfig: ").append(toIndentedString(endpointConfig)).append("\n");
     sb.append("}");

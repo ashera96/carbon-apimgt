@@ -14786,16 +14786,6 @@ public class ApiMgtDAO {
                     } catch (IOException e) {
                         log.error("Error while retrieving LLM configuration", e);
                     }
-//                    try (InputStream modelListStream = resultSet.getBinaryStream("MODEL_LIST")) {
-//                        if (modelListStream != null) {
-//                            String modelListString = IOUtils.toString(modelListStream);
-//                            Gson gson = new Gson();
-//                            provider.setModelList(gson.fromJson(modelListString, List.class));
-//                            //                            provider.setModelList(Collections.singletonList(IOUtils.toString(modelListStream)));
-//                        }
-//                    } catch (IOException e) {
-//                        log.error("Error while retrieving LLM model list", e);
-//                    }
                     providerList.add(provider);
                 }
             }
@@ -15015,15 +15005,6 @@ public class ApiMgtDAO {
                     log.error("Error while retrieving LLM configuration", e);
                 }
                 provider.setModelList(modelList);
-                //                try (InputStream modelListStream = resultSet.getBinaryStream("MODEL_LIST")) {
-                //                    if (modelListStream != null) {
-                //                        String modelListString = IOUtils.toString(modelListStream);
-                //                        Gson gson = new Gson();
-                //                        provider.setModelList(gson.fromJson(modelListString, List.class));
-                //                    }
-                //                } catch (IOException e) {
-                //                    log.error("Error while retrieving LLM model list", e);
-                //                }
                 return provider;
             } catch (SQLException e) {
                 connection.rollback();
@@ -20188,21 +20169,23 @@ public class ApiMgtDAO {
             throws APIManagementException {
 
 
-        AIConfiguration aiConfiguration = null;
+        AIConfiguration aiConfiguration = new AIConfiguration();
         try (Connection connection = APIMgtDBUtil.getConnection()) {
             connection.setAutoCommit(false);
-            String query = (revisionUUID == null)
+            String getConfigQuery = (revisionUUID == null)
                     ? SQLConstants.GET_AI_CONFIGURATION
                     : SQLConstants.GET_AI_CONFIGURATION_REVISION;
-            try (PreparedStatement ps = connection.prepareStatement(query)) {
+            String getModelsQuery = SQLConstants.GET_LLM_PROVIDER_MODELS_SQL;
+            try (PreparedStatement ps = connection.prepareStatement(getConfigQuery);
+                    PreparedStatement prepStmtModels = connection.prepareStatement(getModelsQuery)) {
                 ps.setString(1, uuid);
                 if (revisionUUID != null) {
                     ps.setString(2, revisionUUID);
                 }
                 try (ResultSet rs = ps.executeQuery()) {
                     if (rs.next()) {
-                        aiConfiguration = new AIConfiguration();
-                        aiConfiguration.setLlmProviderId(rs.getString("LLM_PROVIDER_UUID"));
+                        String llmProviderId = rs.getString("LLM_PROVIDER_UUID");
+                        aiConfiguration.setLlmProviderId(llmProviderId);
                         aiConfiguration.setLlmProviderName(rs.getString("NAME"));
                         aiConfiguration.setLlmProviderApiVersion(rs.getString("API_VERSION"));
                     }

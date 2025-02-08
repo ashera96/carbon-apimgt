@@ -18,6 +18,8 @@
 
 package org.wso2.carbon.apimgt.rest.api.admin.v1.impl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -77,8 +79,10 @@ public class LlmProvidersApiServiceImpl implements LlmProvidersApiService {
 
         try {
             List<String> vendorModelList = null;
+            // convert the 'modelList' json into a list
             if (StringUtils.isNotEmpty(modelList)) {
-                vendorModelList = Arrays.asList(modelList.split(","));
+                ObjectMapper objectMapper = new ObjectMapper();
+                vendorModelList = objectMapper.readValue(modelList, new TypeReference<List<String>>() {});
             }
 
             LLMProvider provider = buildLLMProvider(name, apiVersion, description, configurations,
@@ -226,9 +230,11 @@ public class LlmProvidersApiServiceImpl implements LlmProvidersApiService {
             APIAdmin apiAdmin = new APIAdminImpl();
             LLMProvider retrievedProvider = apiAdmin.getLLMProvider(organization, llmProviderId);
 
+            // convert the 'modelList' json into a list
             List<String> vendorModelList = null;
             if (StringUtils.isNotEmpty(modelList)) {
-                vendorModelList = Arrays.asList(modelList.split(","));
+                ObjectMapper objectMapper = new ObjectMapper();
+                vendorModelList = objectMapper.readValue(modelList, new TypeReference<List<String>>() {});
             }
 
             LLMProvider provider = buildUpdatedLLMProvider(retrievedProvider, llmProviderId, description,

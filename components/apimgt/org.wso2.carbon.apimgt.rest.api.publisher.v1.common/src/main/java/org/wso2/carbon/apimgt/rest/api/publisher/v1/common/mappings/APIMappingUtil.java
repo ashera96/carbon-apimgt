@@ -3470,7 +3470,6 @@ public class APIMappingUtil {
         APIEndpointDTO apiEndpointDTO = new APIEndpointDTO();
         apiEndpointDTO.setId(apiEndpoint.getEndpointUuid());
         apiEndpointDTO.setName(apiEndpoint.getEndpointName());
-        apiEndpointDTO.setEndpointType(apiEndpoint.getEndpointType());
         apiEndpointDTO.setEndpointConfig(apiEndpoint.getEndpointConfig());
         return apiEndpointDTO;
     }
@@ -3480,7 +3479,6 @@ public class APIMappingUtil {
         APIEndpointInfo apiEndpoint = new APIEndpointInfo();
         apiEndpoint.setEndpointUuid(apiEndpointDTO.getId());
         apiEndpoint.setEndpointName(apiEndpointDTO.getName());
-        apiEndpoint.setEndpointType(apiEndpointDTO.getEndpointType());
         try {
             HashMap endpointConfigHashMap = (HashMap) apiEndpointDTO.getEndpointConfig();
             apiEndpoint.setEndpointConfig(endpointConfigHashMap);
