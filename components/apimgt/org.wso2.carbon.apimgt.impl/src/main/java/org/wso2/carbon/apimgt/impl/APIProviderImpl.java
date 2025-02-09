@@ -7746,10 +7746,9 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
 
     @Override
     public String addAPIEndpoint(String apiUUID, APIEndpointInfo apiEndpoint) throws APIManagementException {
-        int apiId = apiMgtDAO.getAPIID(apiUUID);
         String endpointUUID = UUID.randomUUID().toString();
         apiEndpoint.setEndpointUuid(endpointUUID);
-        return apiMgtDAO.addAPIEndpoint(apiId, apiEndpoint);
+        return apiMgtDAO.addAPIEndpoint(apiUUID, apiEndpoint);
     }
 
     @Override
@@ -7790,14 +7789,13 @@ class APIProviderImpl extends AbstractAPIManager implements APIProvider {
         } else {
             currentApiUuid = uuid;
         }
-        int apiId = apiMgtDAO.getAPIID(currentApiUuid);
         // Get primary production Endpoint mapping
-        String productionEndpointId =
-                apiMgtDAO.getPrimaryEndpointUUIDByApiIdAndEnv(apiId, APIConstants.APIEndpoint.PRODUCTION, revisionUuid);
+        String productionEndpointId = apiMgtDAO.getPrimaryEndpointUUIDByApiIdAndEnv(currentApiUuid,
+                APIConstants.APIEndpoint.PRODUCTION, revisionUuid);
         api.setPrimaryProductionEndpointId(productionEndpointId);
         // Get primary sandbox endpoint endpoint
-        String sandboxEndpointId =
-                apiMgtDAO.getPrimaryEndpointUUIDByApiIdAndEnv(apiId, APIConstants.APIEndpoint.SANDBOX, revisionUuid);
+        String sandboxEndpointId = apiMgtDAO.getPrimaryEndpointUUIDByApiIdAndEnv(currentApiUuid,
+                APIConstants.APIEndpoint.SANDBOX, revisionUuid);
         api.setPrimarySandboxEndpointId(sandboxEndpointId);
     }
 
