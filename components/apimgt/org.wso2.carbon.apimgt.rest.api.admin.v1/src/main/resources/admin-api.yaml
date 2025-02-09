@@ -4757,8 +4757,7 @@ components:
           format: binary
         modelList:
           type: string
-          description: |
-            List of models supported by the LLM Provider
+          description: List of models supported by the LLM Provider as a stringified JSON array
     LLMProviderResponse:
       title: LLMProviderResponse
       type: object

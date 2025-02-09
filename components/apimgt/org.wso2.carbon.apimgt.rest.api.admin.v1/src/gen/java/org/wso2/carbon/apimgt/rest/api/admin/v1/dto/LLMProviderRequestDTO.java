@@ -116,7 +116,7 @@ public class LLMProviderRequestDTO   {
   }
 
   /**
-   * List of models supported by the LLM Provider 
+   * List of models supported by the LLM Provider as a stringified JSON array
    **/
   public LLMProviderRequestDTO modelList(String modelList) {
     this.modelList = modelList;
@@ -124,7 +124,7 @@ public class LLMProviderRequestDTO   {
   }
 
   
-  @ApiModelProperty(value = "List of models supported by the LLM Provider ")
+  @ApiModelProperty(value = "List of models supported by the LLM Provider as a stringified JSON array")
   @JsonProperty("modelList")
   public String getModelList() {
     return modelList;

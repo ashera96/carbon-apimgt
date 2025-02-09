@@ -8784,6 +8784,40 @@ paths:
           "https://127.0.0.1:9443/api/am/publisher/v4/llm-providers/a2f1e643-9b2a-4f58-bd7a-8c2d3f1e9d6f/endpoint-configuration"'
       operationId: getLLMProviderEndpointConfiguration
 
+  /llm-providers/{llmProviderId}/models:
+    get:
+      tags:
+        - LLMProvider
+      summary: Get LLM provider's model list
+      description: |
+        Get LLM provider's model list
+      parameters:
+        - name: llmProviderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: |
+            OK.
+            List of models
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: ["gpt-35-turbo", "gpt-4", "gpt-4o"]
+      security:
+        - OAuth2Security:
+            - apim:llm_provider_read
+      x-code-samples:
+        - lang: Curl
+          source: 'curl -k -H "Authorization: Bearer ae4eae22-3f65-387b-a171-d37eaa366fa8"
+          "https://127.0.0.1:9443/api/am/publisher/v4/llm-providers/a2f1e643-9b2a-4f58-bd7a-8c2d3f1e9d6f/models"'
+      operationId: getLLMProviderModels
+
   ######################################################
   # The "Individual LLM Provider" resource APIs
   ######################################################
@@ -12089,13 +12123,11 @@ components:
       properties:
         id:
           type: string
-          example: "2df3-3fsf2-sdf0"
+          example: "57a380b7-d852-4f56-bb23-db172722e9d4"
         name:
           type: string
-        endpointType:
-          type : string
-          example: "REST"
-        environment:
+          example: "Endpoint1"
+        environment: #TODO: Change naming of environment
           type: string
           example: "PRODUCTION or SANDBOX"
         endpointConfig:
